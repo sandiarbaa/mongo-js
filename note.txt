@@ -1,0 +1,23 @@
+menggunakan try dan catch untuk menangao respon saat konek ke mongodb
+
+// Function Declaration
+async function connectToMongoDB() {
+  try {
+    await mongoose.connect("mongodb://127.0.0.1:270171/movie_db");
+    console.log("Connected to MongoDB");
+  } catch (error) {
+    console.log("Failed to connect to MongoDB: ", error);
+  }
+}
+
+// Arrow function
+const connectToMongoDB = async () => {
+  try {
+    await mongoose.connect("mongodb://127.0.0.1:27017/movie_db");
+    console.log("Connected to MongoDB");
+  } catch (error) {
+    console.log("Failed to connect to MongoDB: ", error);
+  }
+};
+
+connectToMongoDB();
