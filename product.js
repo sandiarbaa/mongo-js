@@ -14,20 +14,58 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  brand: {
+    type: String,
+    required: true,
+  },
   price: {
     type: Number,
+    required: true,
+    min: 0,
+  },
+  color: {
+    type: String,
+    required: true,
+  },
+  size: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
+  description: {
+    type: String,
+    required: true,
+    maxLength: 150,
+  },
+  condition: {
+    type: String,
+    enum: ["baru", "bekas"],
+    default: "baru",
+  },
+  stock: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+  availability: {
+    online: {
+      type: Boolean,
+      required: true,
+    },
+    offline: {
+      type: Boolean,
+      required: true,
+    },
   },
 });
 
 const Product = mongoose.model("Product", productSchema);
 
-// data yg akan disimpan harus sesuai field nya dengan type yg ada di schema
-// di contoh instance tshirt ini tidak sesuai
-// karena properti color tidak ada di schema productSchema
 const tshirt = new Product({
   name: "T Shirt Raglan",
   price: "500",
-  color: "Black",
+  color: "black",
 });
 
 tshirt
