@@ -20,7 +20,37 @@ const movieSchema = new mongoose.Schema({
 // Model Movie
 const Movie = mongoose.model("Movie", movieSchema);
 
-// Instance objek dari model Movie, yg akan di simpan ke database mongodb
+// find movie berdasarkan tahun
+// find => menghasilkan array, walaupun hasil search nya 1
+// findOne => menghasilkan 1 object
+// const getMovie = Movie.find({year: {$gt: 2018}})
+// Movie.findOne({ year: { $gte: 2018 }, genre: "Drama" })
+//   .then((result) => {
+//     console.log(result);
+//   })
+//   .catch((error) => {
+//     console.error(error);
+//   });
+
+// find by id
+// findOne
+// Movie.findOne({ _id: "66c9258ed4e99c2749a4df54" })
+//   .then((result) => {
+//     console.log(result);
+//   })
+//   .catch((error) => {
+//     console.error(error);
+//   });
+
+// findById
+Movie.findById("66c9258ed4e99c2749a4df52")
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
 // const movie = new Movie({
 //   title: "Black Panther",
 //   genre: "Action",
@@ -29,67 +59,58 @@ const Movie = mongoose.model("Movie", movieSchema);
 //   rating: 7.3,
 // });
 
-// kalau instance seperti di atas itu hanya 1 data jadi ya object js aja, jadi ga perlu key-value nya double quote
-// kalau di sini key-value nya menggunakan double quote/kutip dua ""
-// karena ini merupakan kumpulan object json
-// inserMany ini sifat return nya promise, jadi bisa menggunakan then dan catch untuk berhasil/tidaknya
-Movie.insertMany([
-  {
-    title: "Avengers: Infinity War",
-    genre: "Action",
-    director: "Anthony Russo, Joe Russo",
-    year: 2018,
-    cast: ["Robert Downey Jr.", "Chris Hemsworth", "Mark Ruffalo"],
-    description:
-      "The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe.",
-    rating: 8.4,
-    image: "https://www.example.com/avengers_infinity_war.jpg",
-  },
-  {
-    title: "Joker",
-    genre: "Crime",
-    director: "Todd Phillips",
-    year: 2019,
-    cast: ["Joaquin Phoenix", "Robert De Niro", "Zazie Beetz"],
-    description:
-      "In Gotham City, mentally-troubled comedian Arthur Fleck is disregarded and mistreated by society. He then embarks on a downward spiral of revolution and bloody crime. This path brings him face-to-face with his alter-ego: 'The Joker'.",
-    rating: 8.4,
-    image: "https://www.example.com/joker.jpg",
-  },
-  {
-    title: "Parasite",
-    genre: "Drama",
-    director: "Bong Joon Ho",
-    year: 2019,
-    cast: ["Song Kang-ho", "Lee Sun-kyun", "Cho Yeo-jeong"],
-    description:
-      "Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.",
-    rating: 8.6,
-    image: "https://www.example.com/parasite.jpg",
-  },
-  {
-    title: "Spider-Man: Into the Spider-Verse",
-    genre: "Animation",
-    director: "Bob Persichetti, Peter Ramsey, Rodney Rothman",
-    year: 2018,
-    cast: ["Shameik Moore", "Jake Johnson", "Hailee Steinfeld"],
-    description:
-      "Teen Miles Morales becomes the Spider-Man of his universe, and must join with five spider-powered individuals from other dimensions to stop a threat for all realities.",
-    rating: 8.4,
-    image: "https://www.example.com/spider_man_into_the_spider_verse.jpg",
-  },
-])
-  .then((result) => {
-    console.log("It works!");
-    console.log(result);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// Movie.insertMany([
+//   {
+//     title: "Avengers: Infinity War",
+//     genre: "Action",
+//     director: "Anthony Russo, Joe Russo",
+//     year: 2018,
+//     cast: ["Robert Downey Jr.", "Chris Hemsworth", "Mark Ruffalo"],
+//     description:
+//       "The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe.",
+//     rating: 8.4,
+//     image: "https://www.example.com/avengers_infinity_war.jpg",
+//   },
+//   {
+//     title: "Joker",
+//     genre: "Crime",
+//     director: "Todd Phillips",
+//     year: 2019,
+//     cast: ["Joaquin Phoenix", "Robert De Niro", "Zazie Beetz"],
+//     description:
+//       "In Gotham City, mentally-troubled comedian Arthur Fleck is disregarded and mistreated by society. He then embarks on a downward spiral of revolution and bloody crime. This path brings him face-to-face with his alter-ego: 'The Joker'.",
+//     rating: 8.4,
+//     image: "https://www.example.com/joker.jpg",
+//   },
+//   {
+//     title: "Parasite",
+//     genre: "Drama",
+//     director: "Bong Joon Ho",
+//     year: 2019,
+//     cast: ["Song Kang-ho", "Lee Sun-kyun", "Cho Yeo-jeong"],
+//     description:
+//       "Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.",
+//     rating: 8.6,
+//     image: "https://www.example.com/parasite.jpg",
+//   },
+//   {
+//     title: "Spider-Man: Into the Spider-Verse",
+//     genre: "Animation",
+//     director: "Bob Persichetti, Peter Ramsey, Rodney Rothman",
+//     year: 2018,
+//     cast: ["Shameik Moore", "Jake Johnson", "Hailee Steinfeld"],
+//     description:
+//       "Teen Miles Morales becomes the Spider-Man of his universe, and must join with five spider-powered individuals from other dimensions to stop a threat for all realities.",
+//     rating: 8.4,
+//     image: "https://www.example.com/spider_man_into_the_spider_verse.jpg",
+//   },
+// ])
+//   .then((result) => {
+//     console.log("It works!");
+//     console.log(result);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 // movie.save();
-
-// console.log(movie);
-
-// kalau single insert itu pakai method save untuk menyimpan
-// kalau insertMany karena dia sebuah promise, maka cukup pakai then saja untuk menangkap kalau dia/promise insertMany nya berhasil
