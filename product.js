@@ -1,3 +1,4 @@
+// koneksi ke mongodb
 const mongoose = require("mongoose");
 mongoose
   .connect("mongodb://127.0.0.1:27017/ShopApp")
@@ -46,7 +47,7 @@ const productSchema = mongoose.Schema({
   stock: {
     type: Number,
     required: true,
-    min: [0, "Nilai tidak boleh minus."], // untuk mengubah pesan error validasi dari suatu properti, indeks ke 1 adalah string dari message yg ingin ditampilkan
+    min: [0, "Nilai tidak boleh minus."],
   },
   availability: {
     online: {
@@ -60,32 +61,50 @@ const productSchema = mongoose.Schema({
   },
 });
 
+// method instance, baru di jalanin di function yg memiliki query nya nanti
 productSchema.methods.outStock = function () {
-  // this di sini mengacu ke objeck schema nya
   this.stock = 0;
   this.availability.online = false;
   this.availability.offline = false;
   return this.save();
 };
 
+// method static
+productSchema.statics.closeStore = function () {
+  // query nya
+  return this.updateMany(
+    {},
+    {
+      stock: 0,
+      "availability.online": false, // menggunakan double quote karena ingin mengambil objek nya
+      "availability.offline": false,
+    }
+  );
+};
+
+// instance model
 const Product = mongoose.model("Product", productSchema);
 
-// membuat method contohnya outStock, itu agar logic yg panjang/kompleks bisa di pisah
-// jadi memisahkan antara logic dengan proses eksekusi query nya saja.
+// function untuk mengubah stock dari model product
 const changeStock = async (id) => {
-  // query
   const foundProduct = await Product.findById(id);
-  // logic di ambil dari method outStock
-  await foundProduct.outStock(); // memanggil method outStock dari model, berdasarkan data yg dicari dengan id misal
+  await foundProduct.outStock();
   console.log("Berhasil diubah");
 };
 
-changeStock("66c9b1f88500869fab50faff");
+// menjalankan method static
+// method static itu langsung bisa dijalankan, tanpa harus membuat objek instance dulu dari modelnya
+// jadi perbedaan nya itu, di cara memanggilnya
+// dan gunanya itu sama, agar membuat logic sendiri di dalam suatu function tanpa mengganggu query nya
+Product.closeStore()
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
-// intinya kita bisa membuat instance method dari schema nya, kemudian di pakai di dalam model nya
-// jika model nya butuh perubahan data, jadi logic yg kompleks nya di instance method schema, dan query nya di modelnya
-// dalam hal ini membuat function changeStock untuk model nya
-// di dalam function changeStock itu ada query, yaitu mencari product berdasarkan id, lalu memanggil method outStock
+// changeStock("66c9b1f88500869fab50faff");
 
 // const product = new Product({
 //   name: "Kemeja Flanel",
