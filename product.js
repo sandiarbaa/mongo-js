@@ -46,7 +46,7 @@ const productSchema = mongoose.Schema({
   stock: {
     type: Number,
     required: true,
-    min: 0,
+    min: [0, "Nilai tidak boleh minus."], // untuk mengubah pesan error validasi dari suatu properti, indeks ke 1 adalah string dari message yg ingin ditampilkan
   },
   availability: {
     online: {
@@ -100,7 +100,7 @@ Product.findOneAndUpdate(
     description:
       "Kemeja flanel dengan warna yang cerah, terbuat dari bahan flanel yang nyaman dan berkualitas tinggi.",
     condition: "baru",
-    stock: 10,
+    stock: -10,
     availability: {
       online: true,
       offline: true,
@@ -111,6 +111,6 @@ Product.findOneAndUpdate(
   .then((result) => {
     console.log(result);
   })
-  .catch((error) => {
-    console.error(error);
+  .catch((err) => {
+    console.error(err.errors.stock.properties.message);
   });
