@@ -93,9 +93,6 @@ const changeStock = async (id) => {
 };
 
 // menjalankan method static
-// method static itu langsung bisa dijalankan, tanpa harus membuat objek instance dulu dari modelnya
-// jadi perbedaan nya itu, di cara memanggilnya
-// dan gunanya itu sama, agar membuat logic sendiri di dalam suatu function tanpa mengganggu query nya
 Product.closeStore()
   .then((result) => {
     console.log(result);
