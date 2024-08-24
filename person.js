@@ -14,19 +14,37 @@ const personSchema = mongoose.Schema({
   lastName: String,
 });
 
-// bisa menggunakan get dan set
-// kalau get bisa menggunakan property yg sudah ada di schema nya
-// kalau get itu bisa langsung ubah saja value yg sudah ada di database nya
-// kalau setter bisa definisikan nilainya di dalam parameter nya
 personSchema.virtual("fullName").get(function () {
   return `${this.firstName} ${this.lastName}`;
+});
+
+// dia akan bekerja sebelum dan sesudah ketika kita melakukan sesuatu pada model
+// ini hanya sekedar contoh, penggunaan pre ini di real project nya bukan untuk meng-overwrite nilai
+personSchema.pre("save", async function () {
+  // meng-overwrite nilai apapun yg dibuat dalam object nya di sini object person
+  this.firstName = "Luna";
+  this.lastName = "Lovegood";
+  console.log("persiapan menyimpan data");
+});
+
+personSchema.post("save", async function () {
+  console.log("data berhasil disimpan");
 });
 
 const Person = mongoose.model("Person", personSchema);
 
 const person = new Person({
-  firstName: "Harry",
-  lastName: "Potter",
+  firstName: "Ron",
+  lastName: "Weasley",
 });
 
-console.log(person.fullName);
+console.log(person);
+
+person
+  .save()
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
